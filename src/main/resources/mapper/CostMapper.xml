@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xbb.meeting.mapper.CostMapper">
+  <resultMap id="BaseResultMap" type="com.xbb.meeting.entity.Cost">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="meeting_id" jdbcType="INTEGER" property="meetingId" />
+    <result column="meeting_title" jdbcType="VARCHAR" property="meetingTitle" />
+    <result column="meeting_cost" jdbcType="DOUBLE" property="meetingCost" />
+    <result column="hotel_id" jdbcType="INTEGER" property="hotelId" />
+    <result column="hotel_name" jdbcType="VARCHAR" property="hotelName" />
+    <result column="hotel_cost" jdbcType="DOUBLE" property="hotelCost" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="subtotal" jdbcType="DOUBLE" property="subtotal" />
+  </resultMap>
+</mapper>

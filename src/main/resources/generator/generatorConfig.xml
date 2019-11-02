@@ -1,0 +1,46 @@
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <!--  引用资源配置文件  -->
+    <properties resource="application.properties"/>
+
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!-- 配置 tk.mybatis 插件 -->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <!-- 配置后生成的 Mapper 接口都会自动继承接口 value: 需要继承的接口, 该接口不可以在 MapperScan 扫描范围中-->
+            <property name="mappers" value="tk.mapper.TkMapper"/>
+        </plugin>
+
+        <!-- 数据库连接属性 -->
+        <jdbcConnection driverClass="${spring.datasource.driver-class-name}"
+                        connectionURL="${spring.datasource.url}"
+                        userId="${spring.datasource.username}"
+                        password="${spring.datasource.password}"/>
+
+        <!-- MyBatis 生成器生成 entity -->
+        <javaModelGenerator targetPackage="com.xbb.meeting.entity"
+                            targetProject="src/main/java"/>
+
+        <!-- MyBatis 生成器生成 Mapper XML -->
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="src/main/resources"/>
+
+        <!-- MyBatis 生成器生成 Mapper class -->
+        <javaClientGenerator targetPackage="com.xbb.meeting.mapper"
+                             targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+        <!-- 配置需要指定生成的数据库和表，% 代表所有表 -->
+        <table tableName="%">
+            <!-- mysql 配置 -->
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+    </context>
+
+</generatorConfiguration>

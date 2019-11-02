@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xbb.meeting.mapper.MeetingMapper">
+    <resultMap id="BaseResultMap" type="com.xbb.meeting.entity.Meeting">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="register_time" jdbcType="VARCHAR" property="registerTime"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="meeting_people_count" jdbcType="INTEGER" property="meetingPeopleCount"/>
+        <result column="start_time" jdbcType="VARCHAR" property="startTime"/>
+        <result column="end_time" jdbcType="VARCHAR" property="endTime"/>
+        <result column="meeting_room_id" jdbcType="INTEGER" property="meetingRoomId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="hotel_id" jdbcType="INTEGER" property="hotelId"/>
+        <result column="outline" jdbcType="LONGVARCHAR" property="outline"/>
+    </resultMap>
+
+    <resultMap id="MeetingResultMap" extends="BaseResultMap" type="com.xbb.meeting.entity.Meeting">
+        <association javaType="com.xbb.meeting.entity.MeetingRoom" property="meetingRoom">
+            <result column="meeting_room_name" jdbcType="VARCHAR" property="name"/>
+            <result column="meeting_room_cost" jdbcType="DOUBLE" property="cost" />
+            <result column="meeting_room_location" jdbcType="VARCHAR" property="location" />
+        </association>
+        <association property="hotel" javaType="com.xbb.meeting.entity.Hotel">
+            <result column="hotel_name" jdbcType="VARCHAR" property="name"/>
+            <result column="hotel_cost" jdbcType="DOUBLE" property="cost" />
+            <result column="hotel_location" jdbcType="VARCHAR" property="location" />
+        </association>
+        <collection ofType="com.xbb.meeting.entity.User" property="userList">
+            <result column="u_user_name" jdbcType="VARCHAR" property="userName"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        t1.`id`,
+        t1.`user_id`,
+        t1.`title`,
+        t1.`outline`,
+        t1.`register_time`,
+        t1.`start_time`,
+        t1.`end_time`,
+        t1.`meeting_people_count`,
+        t1.`user_name`
+    </sql>
+
+    <select id="selectJoinTable" resultMap="MeetingResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>,
+        t2.`name` as `meeting_room_name`,
+        t2.`location` as `meeting_room_location`,
+        t2.`cost` as `meeting_room_cost`,
+        t3.`user_name` as u_user_name,
+        t4.`name` as `hotel_name`,
+        t4.`cost` as `hotel_cost`,
+        t4.`location` as `hotel_location`
+        FROM `meeting` t1
+        LEFT JOIN `meeting_room` t2 ON t1.`meeting_room_id` = t2.`id`
+        LEFT JOIN `user` t3 ON t1.`user_id` = t3.`id`
+        LEFT JOIN `hotel` t4 ON t1.`hotel_id` = t4.`id`
+        WHERE t1.`id` = #{id}
+    </select>
+</mapper>
